@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Columbia SolutionForce</title>
+<meta name="description" content="Fractional Salesforce administration and consulting for small and mid-sized businesses. Brandon Urtel, certified Salesforce Administrator, Sales Cloud Consultant and Business Analyst.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: single column, generous margins; hero pairs the promise with a live-looking "case queue" of typical requests */
+:root{
+  --bg:#E4E3DD;          /* stone, carried over from the CSF site */
+  --surface:#F2F1EC;
+  --ink:#16202F;
+  --muted:#4F5A69;
+  --navy:#253551;        /* CSF brand navy */
+  --navy-ink:#F2F1EC;
+  --line:#C9C8C0;
+  --signal:#B4572E;      /* clay, used once per view for status */
+  --display:"Libre Baskerville", Georgia, "Times New Roman", serif;
+  --body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#121925; --surface:#1A2333; --ink:#E7E5DE; --muted:#A3ABB8;
+    --navy:#8FA6CC; --navy-ink:#121925; --line:#2C3748; --signal:#E08A5F; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121925; --surface:#1A2333; --ink:#E7E5DE; --muted:#A3ABB8;
+  --navy:#8FA6CC; --navy-ink:#121925; --line:#2C3748; --signal:#E08A5F; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1.0625rem/1.65 var(--body);-webkit-font-smoothing:antialiased}
+.wrap{max-width:68rem;margin:0 auto;padding-inline:clamp(1rem,4vw,2.5rem)}
+a{color:inherit}
+a:focus-visible,.btn:focus-visible,summary:focus-visible{outline:2px solid var(--signal);outline-offset:3px}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0;line-height:1.2}
+p{margin:0}
+.eyebrow{font:500 .75rem/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+
+/* header */
+header{border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;padding-block:1.1rem}
+.mark{font-family:var(--display);font-size:1.15rem;text-decoration:none;letter-spacing:.01em}
+.mark b{font-weight:700}
+nav ul{display:flex;gap:1.5rem;list-style:none;margin:0;padding:0;flex-wrap:wrap}
+nav a{text-decoration:none;font-size:.95rem;color:var(--muted)}
+nav a:hover{color:var(--ink)}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.8rem 1.3rem;border-radius:2px;font:500 1rem/1 var(--body);text-decoration:none;border:1px solid var(--navy);transition:background .15s,color .15s}
+.btn-primary{background:var(--navy);color:var(--navy-ink)}
+.btn-primary:hover{background:transparent;color:var(--navy)}
+.btn-quiet{color:var(--navy)}
+.btn-quiet:hover{background:var(--navy);color:var(--navy-ink)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:clamp(2rem,5vw,4.5rem);align-items:center;padding-block:clamp(3rem,8vw,6rem) clamp(3rem,7vw,5rem)}
+.hero h1{font-size:clamp(2.1rem,4.6vw,3.4rem);letter-spacing:-.01em}
+.hero h1 em{color:var(--navy)}
+.lede{color:var(--muted);font-size:1.15rem;max-width:34rem;margin-top:1.4rem}
+.cta{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:2rem}
+.fineprint{margin-top:1.1rem;font:400 .82rem/1.4 var(--mono);color:var(--muted)}
+
+/* case queue */
+.queue{background:var(--surface);border:1px solid var(--line);border-radius:3px;font-family:var(--mono);font-size:.82rem;min-width:0}
+.queue-head{display:flex;justify-content:space-between;gap:1rem;padding:.8rem 1rem;border-bottom:1px solid var(--line);color:var(--muted)}
+.queue ol{list-style:none;margin:0;padding:0}
+.queue li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:.85rem;align-items:baseline;padding:.85rem 1rem;border-bottom:1px solid var(--line)}
+.queue li:last-child{border-bottom:0}
+.queue .num{color:var(--muted);font-variant-numeric:tabular-nums}
+.queue .subj{font-family:var(--body);font-size:.95rem;color:var(--ink)}
+.pill{font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;padding:.2rem .45rem;border:1px solid currentColor;border-radius:2px;white-space:nowrap}
+.pill.closed{color:var(--navy)}
+.pill.open{color:var(--signal)}
+.queue-foot{padding:.7rem 1rem;border-top:1px solid var(--line);color:var(--muted);font-size:.72rem}
+
+/* sections */
+section{padding-block:clamp(3rem,7vw,5rem);border-top:1px solid var(--line)}
+.sec-head{display:grid;gap:.8rem;margin-bottom:2.5rem;max-width:40rem}
+.sec-head h2{font-size:clamp(1.6rem,3vw,2.2rem)}
+.prose{max-width:38rem;display:grid;gap:1.1rem}
+.prose p{color:var(--ink)}
+
+.diff{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2rem}
+.diff div{display:grid;gap:.5rem;align-content:start}
+.diff h3{font-size:1.15rem}
+.diff p{color:var(--muted);font-size:.98rem}
+
+.offers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.25rem}
+.offer{background:var(--surface);border:1px solid var(--line);padding:1.6rem;display:grid;gap:.9rem;align-content:start;border-radius:3px}
+.offer.feature{border-color:var(--navy);box-shadow:inset 0 3px 0 var(--navy)}
+.offer h3{font-size:1.3rem}
+.offer .unit{font:500 .78rem/1.3 var(--mono);color:var(--navy);letter-spacing:.04em}
+.offer p{color:var(--muted);font-size:.98rem}
+.offer ul{margin:0;padding-left:1.1rem;color:var(--ink);font-size:.95rem;display:grid;gap:.3rem}
+
+.story{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:clamp(2rem,5vw,4rem);align-items:start}
+.quote{font-family:var(--display);font-style:italic;font-size:clamp(1.3rem,2.4vw,1.7rem);line-height:1.4;color:var(--navy)}
+.quote cite{display:block;margin-top:1rem;font:400 .8rem/1.4 var(--mono);font-style:normal;color:var(--muted);letter-spacing:.04em}
+
+.creds{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin-top:2.5rem}
+.cred{background:var(--bg);padding:1.2rem 1.3rem;display:grid;gap:.25rem}
+.cred b{font-family:var(--display);font-weight:400;font-size:1.05rem}
+.cred span{font:400 .75rem/1.3 var(--mono);color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.stack{margin-top:1.8rem;display:flex;flex-wrap:wrap;gap:.5rem}
+.stack span{font:400 .8rem/1 var(--mono);padding:.45rem .65rem;border:1px solid var(--line);border-radius:2px;color:var(--muted)}
+
+.essay{max-width:38rem}
+.essay .meta{font:400 .8rem/1 var(--mono);color:var(--muted);margin:.6rem 0 1.4rem}
+.essay h3{font-size:1.6rem}
+details{margin-top:1.2rem}
+summary{cursor:pointer;color:var(--navy);font-weight:500;list-style:none;display:inline-flex;gap:.4rem}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"→"}
+details[open] summary::after{content:"↑"}
+details[open] summary{margin-bottom:1.1rem}
+
+.contact{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:clamp(2rem,5vw,4rem);align-items:start}
+.contact h2{font-size:clamp(1.8rem,3.6vw,2.6rem)}
+.channels{display:grid;gap:0;border-top:1px solid var(--line)}
+.channels div{display:grid;grid-template-columns:7rem minmax(0,1fr);gap:1rem;padding-block:1rem;border-bottom:1px solid var(--line);align-items:baseline}
+.channels dt{font:500 .75rem/1 var(--mono);text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+.channels dd{margin:0;overflow-wrap:anywhere}
+.channels a{text-decoration-color:var(--line);text-underline-offset:3px}
+.channels a:hover{text-decoration-color:currentColor}
+
+footer{border-top:1px solid var(--line);padding-block:2rem;font:400 .8rem/1.5 var(--mono);color:var(--muted)}
+footer .wrap{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+
+@media (max-width:860px){
+  .hero,.story,.contact{grid-template-columns:minmax(0,1fr)}
+  .diff,.offers{grid-template-columns:minmax(0,1fr)}
+  .creds{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:520px){
+  nav ul{gap:1rem}
+  .queue li{grid-template-columns:minmax(0,1fr) auto}
+  .queue .num{grid-column:1/-1}
+  .channels div{grid-template-columns:minmax(0,1fr);gap:.3rem}
+}
+</style>
+</head>
+<body>
+
+
+<header>
+  <div class="wrap bar">
+    <a class="mark" href="#top">Columbia <b>SolutionForce</b></a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#writing">Writing</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap hero">
+    <div>
+      <p class="eyebrow">Fractional Salesforce admin &amp; consulting</p>
+      <h1 style="margin-top:1.1rem">A senior Salesforce admin for your business, <em>without the full-time hire.</em></h1>
+      <p class="lede">I'm Brandon Urtel. I help small and mid-sized businesses get real value out of Salesforce: cleaner data, reports people trust, and automation that saves time. You work directly with me, every time.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="#contact">Book a 30-minute intro call</a>
+        <a class="btn btn-quiet" href="#services">See how we can work together</a>
+      </div>
+      <p class="fineprint">No long-term contracts · No minimums</p>
+    </div>
+
+    <aside class="queue" aria-label="Examples of typical requests">
+      <div class="queue-head"><span>Typical requests</span><span>Examples</span></div>
+      <ol>
+        <li><span class="num">#0412</span><span class="subj">Leadership doesn't trust the pipeline report</span><span class="pill closed">Closed</span></li>
+        <li><span class="num">#0413</span><span class="subj">Quote process takes ten clicks; should take two</span><span class="pill closed">Closed</span></li>
+        <li><span class="num">#0414</span><span class="subj">Duplicate accounts after the last import</span><span class="pill closed">Closed</span></li>
+        <li><span class="num">#0415</span><span class="subj">Is Agentforce worth it for a team our size?</span><span class="pill open">In progress</span></li>
+      </ol>
+      <div class="queue-foot">Sales Cloud · Service Cloud · Agentforce · Reports &amp; Dashboards</div>
+    </aside>
+  </div>
+
+  <section id="different">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">What makes it different</p>
+        <h2>You get one senior consultant who knows your org.</h2>
+      </div>
+      <div class="diff">
+        <div>
+          <h3>No ticket queue</h3>
+          <p>You talk to me, not a support system, a junior admin, or a different person every time.</p>
+        </div>
+        <div>
+          <h3>Context carries over</h3>
+          <p>I already know your org, your team and your sales process, so fixes are faster and recommendations fit how you work.</p>
+        </div>
+        <div>
+          <h3>Help when you need it</h3>
+          <p>No long-term contracts and no minimums. Scale up for a project, scale back when things are running well.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="services">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Services</p>
+        <h2>Three ways to work together</h2>
+      </div>
+      <div class="offers">
+        <article class="offer">
+          <p class="unit">Fixed scope · 1–2 weeks</p>
+          <h3>Org health check</h3>
+          <p>A clear look at what's working and what isn't, with a prioritized list of fixes.</p>
+          <ul>
+            <li>Data quality and duplicates</li>
+            <li>Security and user access</li>
+            <li>Automation and technical debt</li>
+            <li>Reports leadership can rely on</li>
+          </ul>
+        </article>
+        <article class="offer feature">
+          <p class="unit">Monthly block of hours</p>
+          <h3>Fractional admin</h3>
+          <p>Ongoing Salesforce administration for teams that need an expert but not a full-time hire.</p>
+          <ul>
+            <li>User setup, training and support</li>
+            <li>Flows, fields and page layouts</li>
+            <li>Reports and dashboards</li>
+            <li>Release updates and org upkeep</li>
+          </ul>
+        </article>
+        <article class="offer">
+          <p class="unit">Scoped project</p>
+          <h3>Implementation &amp; projects</h3>
+          <p>Planned, documented builds that your team will actually use.</p>
+          <ul>
+            <li>Sales Cloud and Service Cloud setup</li>
+            <li>Agentforce readiness and rollout</li>
+            <li>Data migration and integrations</li>
+            <li>Account Engagement (Pardot)</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="wrap">
+      <div class="story">
+        <div>
+          <p class="eyebrow">Results</p>
+          <p class="quote" style="margin-top:1.2rem">"We have all this data in Salesforce, but I still don't really know what's in my pipeline."
+            <cite>What I hear most before we start</cite>
+          </p>
+        </div>
+        <div class="prose">
+          <p class="eyebrow">About</p>
+          <h2 style="font-size:clamp(1.6rem,3vw,2.2rem)">Hi, I'm Brandon.</h2>
+          <p>I've spent my career helping businesses get lasting value out of Salesforce, from scrappy startups to established enterprises. I've seen what separates an implementation that changes how a business runs from one that collects dust.</p>
+          <p>For one mid-sized sales team, I replaced gut-feel forecasting with a live dashboard their leadership checked every morning. Within 90 days they could confidently call their quarter for the first time.</p>
+          <p>I take the time to understand how your business works, where the friction is, and what a realistic solution looks like. I like working with small and mid-sized business owners who know Salesforce should be working harder for them but aren't sure where to start.</p>
+        </div>
+      </div>
+
+      <div class="creds" aria-label="Salesforce certifications">
+        <div class="cred"><span>Certified</span><b>Platform Administrator</b></div>
+        <div class="cred"><span>Certified</span><b>Sales Cloud Consultant</b></div>
+        <div class="cred"><span>Certified</span><b>Business Analyst</b></div>
+      </div>
+      <div class="stack" aria-label="Platform experience">
+        <span>Sales Cloud</span><span>Service Cloud</span><span>Health Cloud</span><span>Agentforce</span><span>Data Cloud</span><span>Account Engagement</span><span>CRM Analytics</span><span>Certinia ERP &amp; PSA</span><span>Data migration</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="writing">
+    <div class="wrap">
+      <article class="essay">
+        <p class="eyebrow">Writing</p>
+        <h3 style="margin-top:1rem">Birth of a Salesman</h3>
+        <p class="meta">Brandon Urtel · June 21, 2026</p>
+        <div class="prose">
+          <p>Recently, I wrote one line in my journal: closing shop for a while. It went blank for a few weeks while I went on vacation. I came back with a fresh set of eyes and a different perspective. I saw a piece from Life magazine, where a staff photographer created a photo essay about an umbrella salesman named Robert Brooks. Something about him stuck with me. Not the umbrellas themselves, but the way he showed up for someone who needed exactly what he had, exactly when they needed it.</p>
+        </div>
+        <details>
+          <summary>Read the full essay</summary>
+          <div class="prose">
+            <p>It wasn't a glamorous existence. I realized I saw myself in him: not someone filling a quota, but someone trying to sell a solution. Over the past few months, I have been studying the art of sales. I wanted a better understanding of how people sell goods and services. What was my relationship with sales?</p>
+            <p>A line from Daniel Pink stuck with me: "we're all in sales now." Our instinct is to shudder at that. The first image that comes to mind is a used car lot, someone trying to sell you a lemon at 21% interest. Early in my career, I sold gym memberships in Buffalo, NY. It was my first sales job. The Buffalo Athletic Club (BAC) was located near City Hall, courthouses and other professional companies. This should have been a gold mine for prospecting, but it didn't pan out. I don't know if you know this or not, but the winters in Buffalo can be unforgiving. I relied on people coming into the gym, walk-ups or "ups." I tried to see myself as a "fitness liaison" but I was more of a liaison to the unemployment line. I did not want to see myself as a salesman, and my output reflected that.</p>
+            <p>Over 10 years later, I found myself in a similar situation. I've spent ample time working within the Salesforce ecosystem, learning the structure behind it, learning business use cases and turning those systems into automations that deliver real results. I think there are a lot of people who are like me, wanting to hang their shingle out and help small businesses achieve results with this software. With there being a lot of people doing the same thing, and advertising on platforms like LinkedIn, it's easy to feel disillusioned and internalize the lack of interest from potential clients.</p>
+            <p>However, after a confluence of studying sales and a little introspection, I started thinking about my process in different ways. First, I had to deconstruct what a salesperson was in my own mind. In Brian Tracy's book, The Psychology of Selling, he says "salespeople are the lifeblood of the economy." Not everyone is trying to get one over on you, just to fill a quota and pipeline expectations. If they are like me, a salesperson is just bridging the gap between a customer's issue and their solution.</p>
+            <p>That reframe is what changed how I show up to the work now. I'm not trying to hit a number or talk anyone into something they don't need. I'm doing roughly what Robert Brooks was doing decades ago: showing up for someone who has a real problem, at the moment they need it solved. In my case, the problem is usually sitting inside a Salesforce org somewhere — a process that takes ten clicks when it should take two, a report nobody trusts anymore, an automation that should exist but never got built.</p>
+            <p>I don't know if that makes me a salesperson in the way I used to dread. I think it just makes me useful. If you're sitting on a Salesforce instance that isn't pulling its weight, I'd be glad to take a look at yours — send me a DM on LinkedIn and let's talk about it.</p>
+          </div>
+        </details>
+      </article>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap contact">
+      <div class="prose">
+        <p class="eyebrow">Contact</p>
+        <h2>Is your Salesforce org pulling its weight?</h2>
+        <p style="color:var(--muted)">Book a free 30-minute call. We'll talk through what's frustrating your team and whether I'm the right fit to fix it.</p>
+        <div class="cta" style="margin-top:.6rem">
+          <a class="btn btn-primary" id="book-link" href="#contact">Book a 30-minute intro call</a>
+        </div>
+      </div>
+      <dl class="channels">
+        <div><dt>Email</dt><dd><a href="mailto:admin@brandonurtel.com">admin@brandonurtel.com</a></dd></div>
+        <div><dt>LinkedIn</dt><dd><a href="https://www.linkedin.com/company/columbia-solutionforce" target="_blank" rel="noopener">Columbia SolutionForce</a></dd></div>
+      </dl>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Brandon Urtel · Columbia SolutionForce</span>
+    <span>Salesforce is a trademark of Salesforce, Inc.</span>
+  </div>
+</footer>
+
+</body>
+</html>
